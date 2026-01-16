@@ -6,6 +6,7 @@ This project implements a complete RNA-Seq analysis pipeline for comparing untre
 
 ## 📁 Project Structure
 
+```
 /mnt/d/Projects/New_folder_3/
 ├── README.md                   # Project documentation
 ├── Script.docx                 # Main analysis pipeline script
@@ -48,22 +49,23 @@ This project implements a complete RNA-Seq analysis pipeline for comparing untre
 │   ├── cancer_test_alignment_summary.txt
 │   ├── normal_test_alignment_summary.txt
 │   └── metadata.csv
+```
 
 ## 🔄 Pipeline Steps
 
-Data Acquisition: Download SRA files using prefetch and fasterq-dump
+**Data Acquisition:** Download SRA files using prefetch and fasterq-dump
 
-Quality Control: FastQC analysis of raw and trimmed reads
+**Quality Control:** FastQC analysis of raw and trimmed reads
 
-Read Trimming: Adapter and quality trimming with Trimmomatic
+**Read Trimming:** Adapter and quality trimming with Trimmomatic
 
-Reference Preparation: HISAT2 index building for GRCh38 chromosome 1
+**Reference Preparation:** HISAT2 index building for GRCh38 chromosome 1
 
-Alignment: Read alignment with HISAT2
+**Alignment:** Read alignment with HISAT2
 
-Quantification: Gene counting with featureCounts
+**Quantification:** Gene counting with featureCounts
 
-Analysis Preparation: Formatting count files for R/DESeq2
+**Analysis Preparation:** Formatting count files for R/DESeq2
 
 ## 🛠️ Installation & Setup
 
@@ -77,7 +79,7 @@ Minimum 50GB free disk space
 
 ### Setup Instructions
 
-1. Windows Setup (PowerShell as Administrator)
+**1. Windows Setup (PowerShell as Administrator)**
 
 Within windows powershell - Enable WSL and install Ubuntu
 
@@ -88,7 +90,7 @@ wsl --install -d Ubuntu
 # Download from: https://github.com/ncbi/sra-tools/wiki/01.-Downloading-SRA-Toolkit
 ```
 
-2. Data Download (PowerShell)
+**2. Data Download (PowerShell)**
 
 Download SRA files (run in PowerShell)
 ```
@@ -99,7 +101,7 @@ prefetch SRR34712393
 # Files will be in: C:\Users\[Username]\ncbi\public\sra\
 ```
 
-3. Run Analysis Pipeline (WSL/Ubuntu)
+**3. Run Analysis Pipeline (WSL/Ubuntu)**
 
 Execute the complete pipeline script in WSL/Ubuntu terminal.
 
@@ -107,7 +109,7 @@ Execute the complete pipeline script in WSL/Ubuntu terminal.
 
 ### Problem 1: Windows Bioinformatics Tool Compatibility
 
-Issue: Initial attempts to run bioinformatics tools (bowtie2, samtools, HISAT2) directly in Windows PowerShell failed due to:
+**Issue:** Initial attempts to run bioinformatics tools (bowtie2, samtools, HISAT2) directly in Windows PowerShell failed due to:
 
 Missing dependencies
 
@@ -117,7 +119,7 @@ Environment variable conflicts
 
 Slow performance with large genome indexing
 
-Solution: Implemented a hybrid Windows/WSL approach:
+**Solution:** Implemented a hybrid Windows/WSL approach:
 
 Use Windows PowerShell for data download (prefetch/fasterq-dump)
 
@@ -127,7 +129,7 @@ Leverage Linux-native bioinformatics tools with better performance and compatibi
 
 ### Problem 2: Genome Index Building Failures
 
-Issue: Multiple attempts to build genome indices failed:
+**Issue:** Multiple attempts to build genome indices failed:
 
 bowtie2-build on full GRCh38 genome stalled indefinitely
 
@@ -137,7 +139,7 @@ Incorrect file permissions in Windows-mounted directories
 
 Timeouts due to large genome size
 
-Solution:
+**Solution:**
 
 Chromosome 1 Only Strategy: Initially built index for chromosome 1 only to test pipeline
 
@@ -149,7 +151,7 @@ Alternative Aligner: Switched to HISAT2 which has better memory management
 
 ### Problem 3: Conda Environment Issues
 
-Issue: Multiple conda environment problems:
+**Issue:** Multiple conda environment problems:
 
 Channel conflicts between bioconda and conda-forge
 
@@ -159,7 +161,7 @@ Broken dependencies after installation
 
 SAMtools installation failures
 
-Solution:
+**Solution:**
 
 Clean Environment: Created fresh rnaseq_clean environment
 
@@ -171,7 +173,7 @@ Alternative Installation Methods: Used mamba for faster dependency resolution
 
 ### Problem 4: WSL/Windows File System Performance
 
-Issue: Poor performance when accessing Windows files from WSL:
+**Issue:** Poor performance when accessing Windows files from WSL:
 
 Very slow file I/O on /mnt/d/ mounted drives
 
@@ -179,7 +181,7 @@ Permission issues with Windows-created files
 
 File locking conflicts between Windows and WSL
 
-Solution:
+**Solution:**
 
 Work in WSL Native Storage: Perform computation in /home/user/ directories
 
@@ -191,7 +193,7 @@ Avoid Concurrent Access: Don't access same files simultaneously from Windows and
 
 ### Problem 5: Quality Control Challenges
 
-Issue: Initial FastQC reports showed several quality issues:
+**Issue:** Initial FastQC reports showed several quality issues:
 
 Overrepresented poly-G sequences (likely technical artifacts)
 
@@ -199,7 +201,7 @@ Adapter contamination
 
 Poor quality bases at read ends
 
-Solution:
+**Solution:**
 
 Custom Trimming: Added custom poly-G sequence to Trimmomatic adapters file
 
@@ -211,13 +213,13 @@ Post-trimming QC: Run FastQC after trimming to verify improvement
 
 ### Problem 6: Alignment Rate Issues
 
-Issue: Low alignment rates (~14%) when using chromosome 1 only:
+**Issue:** Low alignment rates (~14%) when using chromosome 1 only:
 
 Most reads couldn't align to single chromosome
 
 Expected for whole-transcriptome data aligned to partial genome
 
-Solution:
+**Solution:**
 
 Pipeline Validation: Confirmed pipeline works despite low alignment rate
 
@@ -229,7 +231,7 @@ Alternative Explanation: Low alignment rate is correct for chromosome 1-only ali
 
 ## 🎯 Key Technical Decisions
 
-1. Hybrid Windows/WSL Architecture
+**1. Hybrid Windows/WSL Architecture**
 
 Decision: Use Windows for data download, WSL for computation
 Rationale:
@@ -240,7 +242,7 @@ Bioinformatics tools perform better in Linux
 
 Best of both operating systems
 
-2. Chromosome 1 Testing Strategy
+**2. Chromosome 1 Testing Strategy**
 
 Decision: Test pipeline on chromosome 1 before full genome
 Rationale:
@@ -251,7 +253,7 @@ Lower resource requirements
 
 Validates pipeline before committing to full analysis
 
-3. HISAT2 over bowtie2
+**3. HISAT2 over bowtie2**
 
 Decision: Use HISAT2 as primary aligner
 Rationale:
@@ -262,7 +264,7 @@ Built for RNA-Seq with splice-aware alignment
 
 More reliable index building
 
-4. featureCounts for Quantification
+**4. featureCounts for Quantification**
 
 Decision: Use featureCounts from subread package
 Rationale:
@@ -280,8 +282,6 @@ Read Processing: ~56 million read pairs per sample
 Trimming Efficiency: ~95% read survival rate
 
 Alignment Rate: ~14% (chromosome 1 only - expected)
-
-Processing Time: ~4-6 hours per sample on test system
 
 ## 🚀 Next Steps for Full Analysis
 

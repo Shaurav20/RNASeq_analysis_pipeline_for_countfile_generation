@@ -285,19 +285,39 @@ Alignment Rate: ~14% (chromosome 1 only - expected)
 
 ## 🚀 Next Steps for Full Analysis
 
-Download complete GRCh38 genome reference
+**1. Download Complete GRCh38 Genome Reference**
 
-Build full HISAT2 genome index
+Obtain the full genome FASTA file from Ensembl or UCSC
 
-Run complete alignment (expected alignment rate >70%)
+Use complete annotation file (GTF) for comprehensive gene counting
 
-Perform differential expression analysis with DESeq2
+**2. Build Full HISAT2 Genome Index**
 
-Conduct pathway and functional enrichment analysis
+Create index for entire genome instead of chromosome 1 only
+
+This will significantly improve alignment rates (>70% expected)
+
+**3. Run Complete Alignment**
+
+Align all reads to full genome reference
+
+Perform quality assessment on complete alignment
+
+**4. Perform Differential Expression Analysis with DESeq2**
+
+Note: For statistically meaningful DESeq2 analysis:
+
+-Minimum 3 biological replicates per condition are required
+
+-Current analysis uses only 2 samples (1 per condition) for pipeline testing only
+
+-In production, collect count files from multiple samples per condition
+
+-DESeq2 requires replicates for variance estimation and reliable statistics
 
 ## 📝 Conclusion
 
-This pipeline successfully overcomes multiple technical challenges through a hybrid Windows/WSL approach, careful resource management, and iterative testing. The validated pipeline is now ready for production-scale analysis on complete genomes.
+This pipeline successfully overcomes multiple technical challenges through a hybrid Windows/WSL approach, careful resource management, and iterative testing. The validated pipeline is now ready for production-scale analysis on complete genomes with appropriate sample replication.
 
 ## 📜 License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this code with appropriate attribution.

@@ -1,10 +1,10 @@
 # RNASeq_analysis_pipeline_for_countfile_generation
 
-## 📋 Project Overview
+## Project Overview
 
 This project implements a complete RNA-Seq analysis pipeline for comparing untreated and PMA/Ionomycin-treated HCT116 colorectal carcinoma cell lines. The analysis processes two samples from the SRA study SRP603504 using a hybrid Windows/WSL workflow.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 /mnt/d/Projects/New_folder_3/
@@ -51,7 +51,7 @@ This project implements a complete RNA-Seq analysis pipeline for comparing untre
 │   └── metadata.csv
 ```
 
-## 🔄 Pipeline Steps
+## Pipeline Steps
 
 **Data Acquisition:** Download SRA files using prefetch and fasterq-dump
 
@@ -67,7 +67,7 @@ This project implements a complete RNA-Seq analysis pipeline for comparing untre
 
 **Analysis Preparation:** Formatting count files for R/DESeq2
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 
@@ -105,7 +105,7 @@ prefetch SRR34712393
 
 Execute the complete pipeline script in WSL/Ubuntu terminal.
 
-## 🚧 Problems Encountered and Solutions
+## Problems Encountered and Solutions
 
 ### Problem 1: Windows Bioinformatics Tool Compatibility
 
@@ -229,7 +229,7 @@ Production Readiness: Pipeline validated and ready for full genome analysis
 
 Alternative Explanation: Low alignment rate is correct for chromosome 1-only alignment
 
-## 🎯 Key Technical Decisions
+## Key Technical Decisions
 
 **1. Hybrid Windows/WSL Architecture**
 
@@ -275,7 +275,7 @@ Works directly with SAM files (no BAM conversion needed)
 
 Well-documented and widely used
 
-## 📊 Performance Metrics
+## Performance Metrics
 
 Read Processing: ~56 million read pairs per sample
 
@@ -283,7 +283,7 @@ Trimming Efficiency: ~95% read survival rate
 
 Alignment Rate: ~14% (chromosome 1 only - expected)
 
-## 🚀 Next Steps for Full Analysis
+## Next Steps for Full Analysis
 
 **1. Download Complete GRCh38 Genome Reference**
 
@@ -315,12 +315,29 @@ Note: For statistically meaningful DESeq2 analysis:
 
 -DESeq2 requires replicates for variance estimation and reliable statistics
 
-## 📝 Conclusion
+## Conclusion
 
 This pipeline successfully overcomes multiple technical challenges through a hybrid Windows/WSL approach, careful resource management, and iterative testing. The validated pipeline is now ready for production-scale analysis on complete genomes with appropriate sample replication.
 
-## 📜 License
+## License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this code with appropriate attribution.
 
-## 👤 Author
+## Author
 Shaurav Bhattacharyya
+
+## Acknowledgements
+SRA Toolkit – NCBI
+
+FastQC – Babraham Bioinformatics
+
+Trimmomatic – Bolger, Lohse, Usadel (2014)
+
+HISAT2 – Kim, Langmead, Salzberg (2015)
+
+featureCounts – Liao, Smyth, Shi (2014)
+
+SAMtools – Danecek et al. (2021)
+
+GRCh38 – Genome Reference Consortium
+
+Ensembl – Release 110
